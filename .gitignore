@@ -19,3 +19,4 @@ coawst*
 #
 *.slurm
 NGOM_Out.*
+*.out
