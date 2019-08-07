@@ -1,0 +1,16 @@
+# NetCDF files #
+################
+*.nc
+
+# subdirectorys #
+#################
+Build/*
+
+# Compiled source #
+###################
+coawst*
+
+# OS generated files #
+######################
+._*
+
