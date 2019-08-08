@@ -252,12 +252,12 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T    T    T
-        NHIS == 1  120   120
+        NHIS == 180  120   120
      NDEFHIS == 8640    0
         NQCK == 0
      NDEFQCK == 0
       NTSAVG == 1    1
-        NAVG == 0  432
+        NAVG == 180  432
      NDEFAVG == 0    0
       NTSDIA == 0    1
         NDIA == 0  432
@@ -1030,15 +1030,15 @@ Dout(iTvdif) == F F T    ! temp_vdiff, ...    vertical diffusion
 
      DAINAME == ocean_dai.nc
      GSTNAME == ocean_gst.nc
-     RSTNAME == oil_rst_off.nc
-     HISNAME == oil_his_off.nc
+     RSTNAME == ./OUTPUT/oil_rst_off.nc
+     HISNAME == ./OUTPUT/oil_his_off.nc
      QCKNAME == ocean_qck.nc
      TLMNAME == ocean_tlm.nc
      TLFNAME == ocean_tlf.nc
      ADJNAME == ocean_adj.nc
-     AVGNAME == oil_avg_off.nc
+     AVGNAME == ./OUTPUT/oil_avg_off.nc
      HARNAME == ocean_har.nc
-     DIANAME == oil_dia_off.nc
+     DIANAME == ./OUTPUT/oil_dia_off.nc
      STANAME == ocean_sta.nc
      FLTNAME == ocean_flt.nc
 
@@ -1047,7 +1047,7 @@ Dout(iTvdif) == F F T    ! temp_vdiff, ...    vertical diffusion
      APARNAM =  ROMS/External/s4dvar.in
      SPOSNAM =  ROMS/External/stations.in
      FPOSNAM =  ./External/oil_03_floats.in
-     BPARNAM = ./External/bio_Fennel.in
+     BPARNAM =  ./External/bio_Fennel.in
      SPARNAM =  ROMS/External/sediment.in 
      USRNAME =  ROMS/External/MyFile.dat
      VEGNAM  =  vegetation.in
