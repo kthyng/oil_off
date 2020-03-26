@@ -108,7 +108,7 @@ GridsInLayer =  1
 ! indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids].
 
       NtileI == 14 !12                               ! I-direction partition
-      NtileJ == 6 !6                               ! J-direction partition
+      NtileJ == 2 !6                               ! J-direction partition
 
 ! Set lateral boundary conditions keyword. Notice that a value is expected
 ! for each boundary segment per nested grid for each state variable.
@@ -149,12 +149,12 @@ GridsInLayer =  1
    LBC(isFsur) ==   Cha     Cha     Cha     Clo        ! free-surface
    LBC(isUbar) ==   Fla     Fla     Fla     Clo        ! 2D U-momentum
    LBC(isVbar) ==   Fla     Fla     Fla     Clo        ! 2D V-momentum
-   LBC(isUvel) ==   RadNud  RadNud  RadNud  Clo        ! 3D U-momentum
-   LBC(isVvel) ==   RadNud  RadNud  RadNud  Clo        ! 3D V-momentum
-   LBC(isMtke) ==   RadNud  RadNud  RadNud  Clo        ! mixing TKE
+   LBC(isUvel) ==   Rad  Rad  Rad  Clo        ! 3D U-momentum
+   LBC(isVvel) ==   Rad  Rad  Rad  Clo        ! 3D V-momentum
+   LBC(isMtke) ==   Rad  Rad  Rad  Clo        ! mixing TKE
 
-   LBC(isTvar) ==   RadNud  RadNud  RadNud  Clo \       ! temperature
-                    RadNud  RadNud  RadNud  Clo \       ! salinity
+   LBC(isTvar) ==   Rad  Rad  Rad  Clo \       ! temperature
+                    Rad  Rad  Rad  Clo \       ! salinity
                     Rad  Rad  Rad  Clo        ! salinity
 
 ! Wec boundary conditions
@@ -218,8 +218,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 38880  
-          DT == 20.0d0  
+      NTIMES == 7200  
+          DT == 120.0d0  
      NDTFAST == 15    
 
      
@@ -246,13 +246,13 @@ ad_VolCons(north) ==  F                            ! northern boundary
 !       NRST ==  8640   120
 		
         NSTA == 1    1
-        NFLT == 120  1
+        NFLT == 30  1
        NINFO == 1    1
 
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T    T
-        NHIS == 180   120
+        NHIS == 30   120
      NDEFHIS == 0    0
         NQCK == 0
      NDEFQCK == 0
@@ -965,7 +965,7 @@ Dout(iTvdif) == F F T    ! temp_vdiff, ...    vertical diffusion
 ! Input NetCDF file names, [1:Ngrids].
 
      GRDNAME == ./grd/oil_03_grd.nc
-     ININAME == ./ini/oil_online_20100422.nc
+     ININAME == ./ini/oil_online_20100422_LeftGauss.nc
 %     ININAME == NGOM_04_ocean_rst_April20.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
@@ -988,7 +988,7 @@ Dout(iTvdif) == F F T    ! temp_vdiff, ...    vertical diffusion
 ! except the last one.
 
      NCLMFILES == 1                         ! number of climate files
-     CLMNAME == ./clm/oil_clm_off.nc !NGOM_04_clm.nc
+     CLMNAME == ./clm/oil_clm_avg_1hr.nc !NGOM_04_clm.nc
 
      NBCFILES == 1                          ! number of boundary files
      BRYNAME == ./bdy/oil_03_bdy.nc
@@ -1030,23 +1030,23 @@ Dout(iTvdif) == F F T    ! temp_vdiff, ...    vertical diffusion
 
      DAINAME == ocean_dai.nc
      GSTNAME == ocean_gst.nc
-     RSTNAME == ./OUTPUT/dt_00020/oil_rst_off.nc
-     HISNAME == ./OUTPUT/dt_00020/oil_his_off.nc
+     RSTNAME == /home/lixinqu/scratch/projects/CSOMIO/oil_off/OUTPUT/float_gaussian/clm_1hr/dt_00120/oil_rst_off.nc
+     HISNAME == /home/lixinqu/scratch/projects/CSOMIO/oil_off/OUTPUT/float_gaussian/clm_1hr/dt_00120/oil_his_off.nc
      QCKNAME == ocean_qck.nc
      TLMNAME == ocean_tlm.nc
      TLFNAME == ocean_tlf.nc
      ADJNAME == ocean_adj.nc
-     AVGNAME == ./OUTPUT/dt_00020/oil_avg_off.nc
+     AVGNAME == oil_avg_off.nc
      HARNAME == ocean_har.nc
-     DIANAME == ./OUTPUT/dt_00020/oil_dia_off.nc
+     DIANAME == oil_dia_off.nc
      STANAME == ocean_sta.nc
-     FLTNAME == ocean_flt.nc
+     FLTNAME == /home/lixinqu/scratch/projects/CSOMIO/oil_off/OUTPUT/float_gaussian/clm_1hr/dt_00120/ocean_flt.nc
 
 ! Input ASCII parameter filenames.
 
      APARNAM =  ROMS/External/s4dvar.in
      SPOSNAM =  ROMS/External/stations.in
-     FPOSNAM =  ./External/oil_03_floats.in
+     FPOSNAM =  ./External/gaussian_floats.in
      BPARNAM =  ./External/bio_Fennel.in
      SPARNAM =  ROMS/External/sediment.in 
      USRNAME =  ROMS/External/MyFile.dat

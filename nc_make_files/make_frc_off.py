@@ -5,7 +5,7 @@ import glob
 
 def make_ini(frc_name='../../oil_03/oil_03_frc.nc',
              his_name='../../oil_03/oil_03_ocean_his.nc',
-             output_name='../INPUT/oil_frc_off.nc'):
+             output_name='../frc/oil_frc_off.nc'):
     
     #assert os.path.exists(rootdir), ('%s does not exist.' % rootdir)
                 
@@ -28,4 +28,4 @@ def make_ini(frc_name='../../oil_03/oil_03_frc.nc',
     
 if __name__ == '__main__':
 
-    make_ini(his_name=glob.glob('../../oil_03/*ocean_his*.nc'))
+    make_ini(his_name=glob.glob('../../oil_03/output/*ocean_his*.nc'))
