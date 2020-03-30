@@ -17,6 +17,6 @@ coawst*
 # Cluster job files #
 #####################
 #
-*.slurm
+#*.slurm
 NGOM_Out.*
 *.out

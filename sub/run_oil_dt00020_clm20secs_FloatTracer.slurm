@@ -29,4 +29,4 @@ export NETCDF_LIBDIR=$EBROOTNETCDFMINFORTRAN/lib
 export MCT_INCDIR=/home/lixinqu/local/include
 export MCT_LIBDIR=/home/lixinqu/local/lib
 
-mpirun -np 1 ./coawstG ./External/ocean_oil_offline_dt00020_clm20secs_FloatTracer.in
+mpirun -np 1 ./coawstM ./External/ocean_oil_offline_dt00020_clm20secs_LeftGaussian.in
