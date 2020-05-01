@@ -27,7 +27,7 @@
  *     *     *     * */
 #define OFFLINE
 #ifdef OFFLINE
-#define OCLIMATOLOGY
+#undef OCLIMATOLOGY
 #undef ANA_AKTCLIMA  /* need this for offline */
 
 /* For inclusion of mixing variables from history file, 
@@ -47,8 +47,12 @@
  * */
 
 
-#define MIXCLIMATOLOGY
-#define AKXCLIMATOLOGY
+#undef MIXCLIMATOLOGY
+#undef AKXCLIMATOLOGY
+#undef AKVCLIMATLOGY
+#undef AKTCLIMATOLOGY
+#undef AKSCLIMATOLOGY
+
 
 /* for offline, turn off forcings (bulk forcing undefined elsewhere in file)
 All forcing is coming in through climatology from online case. */
@@ -73,11 +77,11 @@ All forcing is coming in through climatology from online case. */
  *   *   *   * **  Adding offline floats
  *    *    *    * **-----------------------------------------------------------------------------
  *     *     *     * */
-#define OFFLINE_FLOATS
+#undef OFFLINE_FLOATS
+#undef FLOAT_VWALK
 #ifdef OFFLINE_FLOATS
 # define FLOATS
-# define FLOAT_OIL
-# undef FLOAT_VWALK
+# undef FLOAT_OIL
 # undef WOIL_INTEGRATED
 # undef OIL_DEBUG
 # undef OIL_EULR
@@ -121,6 +125,7 @@ All forcing is coming in through climatology from online case. */
 #define SPLINES_VVISC
 #define TS_U3HADVECTION
 #define TS_C4VADVECTION
+#undef TS_MPDATA
 #define SOLVE3D
 #define SALINITY
 #define NONLIN_EOS

@@ -4,17 +4,17 @@
 #SBATCH --get-user-env=L             #Replicate login environment
 
 ##NECESSARY JOB SPECIFICATIONS
-#SBATCH --job-name=ngom_online       #Set the job name to "JobExample2"
-#SBATCH --time=0:30:00               #Set the wall clock limit to 6hr and 30min
+#SBATCH --job-name=oil_off            #Set the job name to "JobExample2"
+#SBATCH --time=12:00:00               #Set the wall clock limit to 6hr and 30min
 #SBATCH --nodes=1                    #Request 1 node
-#SBATCH --ntasks-per-node=1  #28         #Request 8 tasks/cores per node
+#SBATCH --ntasks-per-node=28         #Request 8 tasks/cores per node
 #SBATCH --mem=8G                    #Request 8GB per node 
-#SBATCH --output=./log/OFFLINE_dt00020_clm20secs_FloatTracer.%j      #Send stdout/err to "Example2Out.[jobID]" 
+#SBATCH --output=./log/#LOGNAME#.%j      #Send stdout/err to "Example2Out.[jobID]" 
 
 ##OPTIONAL JOB SPECIFICATIONS
 ##SBATCH --account=123456             #Set billing account to 123456
 ##SBATCH --mail-type=ALL              #Send email on all job events
-##SBATCH --mail-user=kthyng@tamu.edu    #Send all emails to email_address 
+#SBATCH --mail-user=kthyng@tamu.edu    #Send all emails to email_address 
 
 #First Executable Line
 
@@ -29,4 +29,4 @@ export NETCDF_LIBDIR=$EBROOTNETCDFMINFORTRAN/lib
 export MCT_INCDIR=/home/lixinqu/local/include
 export MCT_LIBDIR=/home/lixinqu/local/lib
 
-mpirun -np 1 ./coawstM ./External/ocean_oil_offline_dt00020_clm20secs_LeftGaussian.in
+mpirun -np 28 ./coawstM_#WHICHADVECT#_#AKSFLAG# External/#INFILE#
