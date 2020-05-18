@@ -9,12 +9,12 @@
 #SBATCH --nodes=1                    #Request 1 node
 #SBATCH --ntasks-per-node=28         #Request 8 tasks/cores per node
 #SBATCH --mem=8G                    #Request 8GB per node 
-#SBATCH --output=./log/#LOGNAME#.%j      #Send stdout/err to "Example2Out.[jobID]" 
+#SBATCH --output=./log/oil_off.%j      #Send stdout/err to "Example2Out.[jobID]" 
 
 ##OPTIONAL JOB SPECIFICATIONS
 ##SBATCH --account=123456             #Set billing account to 123456
 ##SBATCH --mail-type=ALL              #Send email on all job events
-##SBATCH --mail-user=lixinqu@tamu.edu    #Send all emails to email_address 
+##SBATCH --mail-user=kthyng@tamu.edu    #Send all emails to email_address 
 
 #First Executable Line
 
@@ -29,4 +29,4 @@ export NETCDF_LIBDIR=$EBROOTNETCDFMINFORTRAN/lib
 export MCT_INCDIR=/home/lixinqu/local/include
 export MCT_LIBDIR=/home/lixinqu/local/lib
 
-mpirun -np 28 ./coawstM ./External/#ROMSINNAME#
+mpirun -np 28 ./coawstM ./External/ocean_oil_offline.in
