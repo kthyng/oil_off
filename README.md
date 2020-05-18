@@ -1,13 +1,28 @@
 # oil_off
-Bio offline test with oil application
-This test runs the fennel biology offline using climatology files and my 'offline' branch of COAWST-ROMS-OIL version of ROMS.
-The climatology is generated from the history files from Dmitry's oil run (make script are on the nc_make_files folder)
+
+Force a passive tracer field using output from an [online simulation](https://github.com/kthyng/oil_03) input as climatology files.
 
 ## How to run an offline simulation
 
-1. Run an online simulation
-2. As a starting place, use files like:
-  - `python build-coawst.py --clean --mpi  oil_offline_kmt`: convenient way to compile your simulation, but not necessary
-  - `Include/oil_offline_kmt.h`: already has flags set up for offline simulation. However, it is currently set up to read in a lot of variables that you might not have saved in your online simulation. Look in file for guidance on this.
-  - `External/ocean_oil_offline_dt00020_clm20secs_LeftGaussian.in`: many inputs in here are specific to offline simulation, but should change especially input and output file locations to match your simulation. Note that VARNAME *HAS* to match the location of the file for the offline COAWST oil code or you will get a segfault.
-  - `sbatch sub/run_oil_dt00020_clm1hr_FloatTracer.slurm`: for TAMU clusters to run simulation
+1. Run an online simulation with a special version of COAWST/ROMS: https://github.com/kthyng/COAWST-ROMS-OIL
+2. Run your offline sim:
+  - You can compile your code with `python build-coawst.py --clean --mpi  oil_offline`
+  - Start from `Include/oil_offline.h` to choose your preprocessor flags. Good choices are already selected there.
+    - Use OUT_DOUBLE for best results
+    - AKSCLIMATOLOGY to force Aks from the online simulation
+    - OFFLINE and OFFLINE_TPASSIVE
+    - MPDATA for tracer advection gives best results (as compared with TS_U3HADVECTION and TS_C4VADVECTION together)
+  - Use `External/ocean_oil_offline.in` as a template.
+    - Set output from online simulation as clm input
+    - if forcing with an avg file from online simulation, need to place a file containing the initial conditions first
+    - choose offline simulation time step: time step needs to factor into online output evenly
+    - can't have time step larger than online output
+  - There should be no forcing in the offline simulation since it all comes in through the online output as climatology
+    - Boundaries should all be closed except for dye_01 since all boundary information is encoded in the online output
+    - Turn off river forcing
+    - Do not force winds, bulk fluxes, etc
+    - No nudging to climatology
+    - do include clm for zeta, m2, m3
+    - only output dye_01 and zeta since otherwise best to use online output (w for example is not calculated correctly in offline sim)
+    - VARNAME points to a special offline simulation version of varinfo.dat, which should be redirected to wherever your version of this [ROMS/COAWST](https://github.com/kthyng/COAWST-ROMS-OIL) is.
+  - `sbatch sub/run_oil.slurm`: example file for slurm clusters to run simulation
