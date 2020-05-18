@@ -20,3 +20,8 @@ coawst*
 #*.slurm
 NGOM_Out.*
 *.out
+
+sub/run_off_ss_*
+log
+output_ss
+External/oil_off_ss_*

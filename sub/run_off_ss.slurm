@@ -5,9 +5,9 @@
 
 ##NECESSARY JOB SPECIFICATIONS
 #SBATCH --job-name=oil_off            #Set the job name to "JobExample2"
-#SBATCH --time=12:00:00               #Set the wall clock limit to 6hr and 30min
+#SBATCH --time=18:00:00               #Set the wall clock limit to 6hr and 30min
 #SBATCH --nodes=1                    #Request 1 node
-#SBATCH --ntasks-per-node=28         #Request 8 tasks/cores per node
+#SBATCH --ntasks-per-node=14         #Request 8 tasks/cores per node
 #SBATCH --mem=8G                    #Request 8GB per node 
 #SBATCH --output=./log/#LOGNAME#.%j      #Send stdout/err to "Example2Out.[jobID]" 
 
@@ -29,4 +29,4 @@ export NETCDF_LIBDIR=$EBROOTNETCDFMINFORTRAN/lib
 export MCT_INCDIR=/home/lixinqu/local/include
 export MCT_LIBDIR=/home/lixinqu/local/lib
 
-mpirun -np 28 ./coawstM_#WHICHADVECT#_#AKSFLAG# External/#INFILE#
+mpirun -np 14 ./coawstM_#WHICHADVECT#_#AKSFLAG# External/#INFILE#

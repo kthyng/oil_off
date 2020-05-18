@@ -3,11 +3,13 @@ import numpy as np
 
 # This nhis is the input clm frequency and also the output save frequency for the 
 # corresponding offline sim.
-nhiss = [100] # [1,10,100]  # [1, 2, 5, 10, 20, 50, 100, 200, 500]
+nhiss = [1, 2, 5, 10, 20, 50, 100, 200, 500,1000,2000,5000]
 whichadvects = ['U3C4']#,'MPDATA']
-akss = [1e-6, 1e-5]  # vary background Aks values when Aks isn't being forced directly
-aksflags = ['Akson']#, 'Aksoff']
-clminputs = ['his', 'avg']
+akss = [1e-6]#, 1e-3]  # vary background Aks values when Aks isn't being forced directly
+aksflags = ['Akson', 'Aksoff']
+clminputs = ['his']#, 'avg']
+
+dts = [1,2,5,10,20]
 
 # get absolute path for back one directory level for base of project
 base = '/'.join(os.getcwd().split('/')[:-1])
@@ -19,22 +21,27 @@ ndays = 14  # number of simulation days
 for clminput in clminputs:
     # loop over input/output frequency
     for i, nhis in enumerate(nhiss):
-        # for each nhis, the possible time step dts to run is from 1 up to equal to clm
-        dts = nhiss[:i+1]
         # loop over sim time step
         for dt in dts:
+            if dt > nhis:  # can't have time step larger than output
+                continue
             # nhis value in loop is incoming from the online case: how often output was saved.
             # nhis for the offline case should be chosen so the number of outputs matches the 
             # online case.
-            nhisoff = nhis/dt
-
+            # No, change it so that it outputs at the lowest option, 500
+            if clminput == 'his':
+                nhisoff = 500/dt
+                navg = 0
+            elif clminput == 'avg':
+                nhisoff = 0
+                navg = 500/dt
             # convert from number time steps to seconds for this time step
             # convert to form for inputting into .in file
             dtinput = str(dtbase*dt) + 'd0'
             # calculate number of time steps for offline sim. Take lower integer value
             # so we can't run out of input forcing.
             # still running out so subtract one time step to see if it fixes
-            ntimes = np.floor(ndays*86400/(dtbase*dt)) - 1
+            ntimes = np.floor(ndays*86400/(dtbase*dt)) - 2*nhis/dt - 1
             # loop over tracer advection scheme options
             for whichadvect in whichadvects:
                 # Aks forcing can be turned on or off
@@ -74,11 +81,12 @@ for clminput in clminputs:
                             # Substitute appropriate values in for placeholders in infile_in, then save changes to infile_out.
                             outdir = 'output_ss/%s/%s/Aksbak%i/%s/nhis%i' % (whichadvect,aksflag,exp,clminput,nhis)
                             hisname = '%s/oil_off_his_dt%i.nc' % (outdir,dt)
+                            avgname = '%s/oil_off_avg_dt%i.nc' % (outdir,dt)
                             # make output directory
                             os.system('mkdir -p %s' % ('../'+outdir))
                             
-                            strings = (nhisoff, ntimes, dtinput, aksinput, hisname, ininame, clmname, base+'/External/'+infile_in, base+'/External/'+infile_out)
-                            command = "sed -e 's/#NHIS#/%s/' -e 's/#NTIMES#/%s/' -e 's/#DT#/%s/' -e 's/#AKT_BAK#/%s/'i  -e 's|#HISNAME#|%s|' -e 's|#ININAME#|%s|' -e 's+#CLMNAME#+%s+' %s > %s"      
+                            strings = (nhisoff, navg, ntimes, dtinput, aksinput, hisname, avgname, ininame, clmname, base+'/External/'+infile_in, base+'/External/'+infile_out)
+                            command = "sed -e 's/#NHIS#/%s/' -e 's/#NAVG#/%s/' -e 's/#NTIMES#/%s/' -e 's/#DT#/%s/' -e 's/#AKT_BAK#/%s/' -e 's|#HISNAME#|%s|' -e 's|#AVGNAME#|%s|' -e 's|#ININAME#|%s|' -e 's+#CLMNAME#+%s+' %s > %s"      
                             os.system(command % strings)
 
 
@@ -104,11 +112,12 @@ for clminput in clminputs:
                         # Substitute appropriate values in for placeholders in infile_in, then save changes to infile_out.
                         outdir = 'output_ss/%s/%s/%s/nhis%i' % (whichadvect,aksflag,clminput,nhis)
                         hisname = '%s/oil_off_his_dt%i.nc' % (outdir,dt)
+                        avgname = '%s/oil_off_avg_dt%i.nc' % (outdir,dt)
                         # make output directory
                         os.system('mkdir -p %s' % ('../'+outdir))
 
-                        strings = (nhisoff, ntimes, dtinput, aksinput, hisname, ininame, clmname, base+'/External/'+infile_in, base+'/External/'+infile_out)
-                        command = "sed -e 's/#NHIS#/%s/' -e 's/#NTIMES#/%s/' -e 's/#DT#/%s/' -e 's/#AKT_BAK#/%s/' -e 's|#HISNAME#|%s|' -e 's|#ININAME#|%s|' -e 's+#CLMNAME#+%s+' %s > %s"
+                        strings = (nhisoff, navg, ntimes, dtinput, aksinput, hisname, avgname, ininame, clmname, base+'/External/'+infile_in, base+'/External/'+infile_out)
+                        command = "sed -e 's/#NHIS#/%s/' -e 's/#NAVG#/%s/' -e 's/#NTIMES#/%s/' -e 's/#DT#/%s/' -e 's/#AKT_BAK#/%s/' -e 's|#HISNAME#|%s|' -e 's|#AVGNAME#|%s|' -e 's|#ININAME#|%s|' -e 's+#CLMNAME#+%s+' %s > %s"
                         os.system(command % strings)
 
                         jobfile_out  = 'run_off_ss_%s_%s_%s_nhis%i_dt%i.slurm' % (whichadvect, aksflag, clminput, nhis,dt)

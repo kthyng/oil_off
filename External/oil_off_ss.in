@@ -73,10 +73,7 @@
 ! Input variable information file name.  This file needs to be processed
 ! first so all information arrays can be initialized properly.
 
-!     VARNAME = /scratch/group/csomio/COAWST-ROMS-OIL-dj/ROMS/External/varinfo.dat
-     VARNAME = /scratch/group/csomio/COAWST-ROMS-OIL/ROMS/External/varinfo.dat
-!     VARNAME = /home/lixinqu/scratch/COAWST-ROMS-OIL/ROMS/External/varinfo.dat
-!     VARNAME = ../src/COAWST-ROMS-OIL/ROMS/External/varinfo.dat
+     VARNAME = /scratch/group/csomio/COAWST-ROMS-OIL/ROMS/External/varinfo-offline.dat
 
 ! Number of nested grids.
 
@@ -111,7 +108,7 @@ GridsInLayer =  1
 ! indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids].
 
       NtileI == 7                               ! I-direction partition
-      NtileJ == 4  !6                               ! J-direction partition
+      NtileJ == 2  !6                               ! J-direction partition
 !      NtileI == 10                               ! I-direction partition
 !      NtileJ == 12                               ! J-direction partition
 
@@ -261,7 +258,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
         NQCK == 0
      NDEFQCK == 0
       NTSAVG == 1    1
-        NAVG == 0  432
+        NAVG == #NAVG#  432
      NDEFAVG == 0    0
       NTSDIA == 0    1
         NDIA == 0  432
@@ -765,29 +762,29 @@ Qout(idMtls) == F       ! gls                turbulent length scale
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged
 ! fields into AVERAGE output file.
 
-Aout(idUvel) == T       ! u                  3D U-velocity
-Aout(idVvel) == T       ! v                  3D V-velocity
+Aout(idUvel) == F       ! u                  3D U-velocity
+Aout(idVvel) == F       ! v                  3D V-velocity
 Aout(idu3dE) == F       ! u_eastward         3D U-eastward  at RHO-points
 Aout(idv3dN) == F       ! v_northward        3D V-northward at RHO-points
-Aout(idWvel) == T       ! w                  3D W-velocity
-Aout(idOvel) == T       ! omega              omega vertical velocity
-Aout(idUbar) == T       ! ubar               2D U-velocity
-Aout(idVbar) == T       ! vbar               2D V-velocity
+Aout(idWvel) == F       ! w                  3D W-velocity
+Aout(idOvel) == F       ! omega              omega vertical velocity
+Aout(idUbar) == F       ! ubar               2D U-velocity
+Aout(idVbar) == F       ! vbar               2D V-velocity
 Aout(idu2dE) == F       ! ubar_eastward      2D U-eastward  at RHO-points
 Aout(idv2dN) == F       ! vbar_northward     2D V-northward at RHO-points
 Aout(idFsur) == T       ! zeta               free-surface
 Aout(idBath) == F       ! bath               time-dependent bathymetry
 
-Aout(idTvar) == T T     ! temp, salt         temperature and salinity
+Aout(idTvar) == F F     ! temp, salt         temperature and salinity
 
 Aout(idUair) == F       ! Uwind              surface U-wind
 Aout(idVair) == F       ! Vwind              surface V-wind
 Aout(idUairE) == F      ! Uwind_eastward     surface U-wind
 Aout(idVairN) == F      ! Vwind_northward    surface V-wind
-Aout(idUsms) == T       ! sustr              surface U-stress
-Aout(idVsms) == T       ! svstr              surface V-stress
-Aout(idUbms) == T       ! bustr              bottom U-stress
-Aout(idVbms) == T       ! bvstr              bottom V-stress
+Aout(idUsms) == F       ! sustr              surface U-stress
+Aout(idVsms) == F       ! svstr              surface V-stress
+Aout(idUbms) == F       ! bustr              bottom U-stress
+Aout(idVbms) == F       ! bvstr              bottom V-stress
 
 Aout(idUbrs) == F       ! bustrc             bottom U-current stress
 Aout(idVbrs) == F       ! bvstrc             bottom V-current stress
@@ -853,9 +850,9 @@ Aout(idevap) == F       ! evaporation        evaporation rate
 Aout(idrain) == F       ! rain               precipitation rate
 
 Aout(idDano) == F       ! rho                density anomaly
-Aout(idVvis) == T       ! AKv                vertical viscosity
-Aout(idTdif) == T       ! AKt                vertical T-diffusion
-Aout(idSdif) == T       ! AKs                vertical Salinity diffusion
+Aout(idVvis) == F       ! AKv                vertical viscosity
+Aout(idTdif) == F       ! AKt                vertical T-diffusion
+Aout(idSdif) == F       ! AKs                vertical Salinity diffusion
 Aout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
 Aout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
 
@@ -872,7 +869,7 @@ Aout(idFsuD) == F       ! zeta_detided       detided free-surface
 
 Aout(idTrcD) == F F     ! temp_detided, ...  detided temperature and salinity
 
-Aout(idHUav) == T       ! Huon               u-volume flux, Huon
+Aout(idHUav) == F       ! Huon               u-volume flux, Huon
 Aout(idHVav) == F       ! Hvom               v-volume flux, Hvom
 Aout(idUUav) == F       ! uu                 quadratic <u*u> term
 Aout(idUVav) == F       ! uv                 quadratic <u*v> term
@@ -1006,7 +1003,7 @@ Dout(iTvdif) == F F     ! temp_vdiff, ...    vertical diffusion
 
 ! Input Sources/Sinks forcing (like river runoff) file name.
 
-     SSFNAME == oil_03_river.nc
+     SSFNAME == ../oil_03/oil_03_river.nc
 
 ! Input tidal forcing file name.
 
@@ -1043,7 +1040,7 @@ Dout(iTvdif) == F F     ! temp_vdiff, ...    vertical diffusion
      TLMNAME == ocean_tlm.nc
      TLFNAME == ocean_tlf.nc
      ADJNAME == ocean_adj.nc
-     AVGNAME == acean_avg.nc
+     AVGNAME == #AVGNAME#
      HARNAME == ocean_har.nc
      DIANAME == ocean_dia.nc
      STANAME == ocean_sta.nc
