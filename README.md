@@ -17,12 +17,12 @@ Force a passive tracer field using output from an [online simulation](https://gi
     - if forcing with an avg file from online simulation, need to place a file containing the initial conditions first
     - choose offline simulation time step: time step needs to factor into online output evenly
     - can't have time step larger than online output
-  - There should be no forcing in the offline simulation since it all comes in through the online output as climatology
-    - Boundaries should all be closed except for dye_01 since all boundary information is encoded in the online output
-    - Turn off river forcing
-    - Do not force winds, bulk fluxes, etc
-    - No nudging to climatology
-    - do include clm for zeta, m2, m3
-    - only output dye_01 and zeta since otherwise best to use online output (w for example is not calculated correctly in offline sim)
-    - VARNAME points to a special offline simulation version of varinfo.dat, which should be redirected to wherever your version of this [ROMS/COAWST](https://github.com/kthyng/COAWST-ROMS-OIL) is.
+    - There should be no forcing in the offline simulation since it all comes in through the online output as climatology
+      - Boundaries should all be closed except for dye_01 since all boundary information is encoded in the online output
+      - Turn off river forcing
+      - Do not force winds, bulk fluxes, etc
+      - No nudging to climatology
+      - do include clm for zeta, m2, m3
+      - only output dye_01 and zeta since otherwise best to use online output (w for example is not calculated correctly in offline sim)
+      - VARNAME points to a special offline simulation version of varinfo.dat, which should be redirected to wherever your version of this [ROMS/COAWST](https://github.com/kthyng/COAWST-ROMS-OIL) is.
   - `sbatch sub/run_oil.slurm`: example file for slurm clusters to run simulation
