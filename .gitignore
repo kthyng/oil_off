@@ -25,3 +25,4 @@ sub/run_off_ss_*
 log
 output_ss
 External/oil_off_ss_*
+External/ocean_oil_offline_*
