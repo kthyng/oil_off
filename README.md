@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/250293006.svg)](https://zenodo.org/badge/latestdoi/250293006)
+
 # oil_off
 
 Force a passive tracer field using output from an [online simulation](https://github.com/kthyng/oil_03) input as climatology files.
